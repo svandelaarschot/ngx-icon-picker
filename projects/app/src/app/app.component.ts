@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  selector: "app-root",
+  standalone: false,
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.less"],
 })
 export class AppComponent implements OnInit {
   myFormGroup: FormGroup;
@@ -18,16 +19,16 @@ export class AppComponent implements OnInit {
   iconCssButton = new FormControl();
   iconCssSpan = new FormControl();
   iconCssMulti: FormControl[] = [];
-  fallbackIconDefault = 'fas fa-user';
-  fallbackIconAll = 'fa fa-book';
-  fallbackIconFa5 = 'fas fa-igloo';
-  fallbackIconFa6 = 'coffee';
-  fallbackIconPrime = 'pi pi-user';
-  fallbackIconMat = 'explore';
-  fallbackIconA = 'fas fa-question-circle';
-  fallbackIconButton = 'fas fa-igloo';
-  fallbackIconSpan = 'fas fa-igloo';
-  fallbackIcons: string[] = ['fas fa-question-circle', 'fas fa-igloo'];
+  fallbackIconDefault = "fas fa-user";
+  fallbackIconAll = "fa fa-book";
+  fallbackIconFa5 = "fas fa-igloo";
+  fallbackIconFa6 = "coffee";
+  fallbackIconPrime = "pi pi-user";
+  fallbackIconMat = "explore";
+  fallbackIconA = "fas fa-question-circle";
+  fallbackIconButton = "fas fa-igloo";
+  fallbackIconSpan = "fas fa-igloo";
+  fallbackIcons: string[] = ["fas fa-question-circle", "fas fa-igloo"];
   stateIconPicker = "Closed";
   awaitingOpening = false;
 
@@ -45,7 +46,7 @@ export class AppComponent implements OnInit {
       iconCssMat: this.iconCssMat,
       iconCssA: this.iconCssA,
       iconCssButton: this.iconCssButton,
-      iconCssSpan: this.iconCssSpan
+      iconCssSpan: this.iconCssSpan,
     });
   }
 
@@ -90,12 +91,12 @@ export class AppComponent implements OnInit {
   }
 
   onIconPickerOpen(): void {
-    this.stateIconPicker = 'Opened';
+    this.stateIconPicker = "Opened";
     this.awaitingOpening = false;
   }
 
   onIconPickerClose(): void {
-    this.stateIconPicker = 'Closed';
+    this.stateIconPicker = "Closed";
   }
 
   onIconPickerFocus(): void {

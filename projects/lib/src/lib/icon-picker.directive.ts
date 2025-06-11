@@ -7,40 +7,41 @@ import {
   OnChanges,
   OnInit,
   Output,
-  ViewContainerRef
-} from '@angular/core';
+  ViewContainerRef,
+} from "@angular/core";
 
-import { IconPickerComponent } from './icon-picker.component';
+import { IconPickerComponent } from "./icon-picker.component";
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[iconPicker]'
+  selector: "[iconPicker]",
+  standalone: false,
 })
 export class IconPickerDirective implements OnInit, OnChanges {
   @Input() iconPicker: string;
-  @Input() ipPlaceHolder = 'Search icon...';
-  @Input() ipPosition = 'right';
-  @Input() ipFallbackIcon = 'fas fa-user';
-  @Input() ipHeight = 'auto';
-  @Input() ipMaxHeight = '200px';
-  @Input() ipWidth = '230px';
-  @Input() ipIconSize = '16px';
-  @Input() ipIconVerticalPadding = '6px'; // Top / Bottom
-  @Input() ipIconHorizontalPadding = '10px'; // Left / Right
-  @Input() ipIconPack = ['fa5'];
-  @Input() ipKeepSearchFilter = 'false';
+  @Input() ipPlaceHolder = "Search icon...";
+  @Input() ipPosition = "right";
+  @Input() ipFallbackIcon = "fas fa-user";
+  @Input() ipHeight = "auto";
+  @Input() ipMaxHeight = "200px";
+  @Input() ipWidth = "230px";
+  @Input() ipIconSize = "16px";
+  @Input() ipIconVerticalPadding = "6px"; // Top / Bottom
+  @Input() ipIconHorizontalPadding = "10px"; // Left / Right
+  @Input() ipIconPack = ["fa5"];
+  @Input() ipKeepSearchFilter = "false";
   @Input() ipUseRootViewContainer = false;
   // Default design with bootstrap
-  @Input() ipButtonStyleClass = 'btn btn-default';
-  @Input() ipDivSearchStyleClass = '';
-  @Input() ipInputSearchStyleClass = 'form-control input-sm';
+  @Input() ipButtonStyleClass = "btn btn-default";
+  @Input() ipDivSearchStyleClass = "";
+  @Input() ipInputSearchStyleClass = "form-control input-sm";
 
   @Output() iconPickerSelect = new EventEmitter<string>(true);
   @Output() iconPickerOpen = new EventEmitter<void>(true);
   @Output() iconPickerClose = new EventEmitter<void>(true);
   @Output() iconPickerFocus = new EventEmitter<void>(true);
 
-  @HostListener('focus') handleFocus(): void {
+  @HostListener("focus") handleFocus(): void {
     this.elementFocus();
   }
 
@@ -48,13 +49,11 @@ export class IconPickerDirective implements OnInit, OnChanges {
   private created: boolean;
   private ignoreChanges = false;
 
-  constructor(
-    private vcRef: ViewContainerRef,
-    private el: ElementRef) {
+  constructor(private vcRef: ViewContainerRef, private el: ElementRef) {
     this.created = false;
   }
 
-  @HostListener('click')
+  @HostListener("click")
   onClick() {
     this.openDialog();
   }
@@ -66,7 +65,8 @@ export class IconPickerDirective implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.iconPicker = this.iconPicker || this.ipFallbackIcon || 'fa fa-user-plus';
+    this.iconPicker =
+      this.iconPicker || this.ipFallbackIcon || "fa fa-user-plus";
     this.iconPickerSelect.emit(this.iconPicker);
   }
 
@@ -75,10 +75,26 @@ export class IconPickerDirective implements OnInit, OnChanges {
       this.created = true;
       const vcRef = this.vcRef;
       const cmpRef = vcRef.createComponent(IconPickerComponent);
-      cmpRef.instance.setDialog(this, this.el, this.iconPicker, this.ipPosition, this.ipHeight, this.ipMaxHeight,
-        this.ipWidth, this.ipPlaceHolder, this.ipFallbackIcon, this.ipIconPack, this.ipIconSize,
-        this.ipIconVerticalPadding, this.ipIconHorizontalPadding, this.ipButtonStyleClass, this.ipDivSearchStyleClass,
-        this.ipInputSearchStyleClass, this.ipKeepSearchFilter, this.ipUseRootViewContainer);
+      cmpRef.instance.setDialog(
+        this,
+        this.el,
+        this.iconPicker,
+        this.ipPosition,
+        this.ipHeight,
+        this.ipMaxHeight,
+        this.ipWidth,
+        this.ipPlaceHolder,
+        this.ipFallbackIcon,
+        this.ipIconPack,
+        this.ipIconSize,
+        this.ipIconVerticalPadding,
+        this.ipIconHorizontalPadding,
+        this.ipButtonStyleClass,
+        this.ipDivSearchStyleClass,
+        this.ipInputSearchStyleClass,
+        this.ipKeepSearchFilter,
+        this.ipUseRootViewContainer
+      );
       this.dialog = cmpRef.instance;
 
       if (this.vcRef !== vcRef) {

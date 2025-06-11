@@ -1,17 +1,23 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 
-import { IconPickerService } from './icon-picker.service';
-import { Icon, IconType } from './icon';
+import { IconPickerService } from "./icon-picker.service";
+import { Icon, IconType } from "./icon";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'icon-picker',
-  templateUrl: './icon-picker.component.html',
-  styleUrls: ['./icon-picker.component.scss']
+  selector: "icon-picker",
+  standalone: false,
+  templateUrl: "./icon-picker.component.html",
+  styleUrls: ["./icon-picker.component.scss"],
 })
-
 export class IconPickerComponent implements OnInit {
-  @ViewChild('dialogPopup') dialogElement: any;
+  @ViewChild("dialogPopup") dialogElement: any;
 
   // Popover
   public ipPosition: string;
@@ -45,7 +51,7 @@ export class IconPickerComponent implements OnInit {
   public buttonHeight: number;
 
   icons: Icon[] = [];
-  search = '';
+  search = "";
 
   private directiveInstance: any;
   private initialIcon: string;
@@ -59,13 +65,29 @@ export class IconPickerComponent implements OnInit {
   constructor(
     private el: ElementRef,
     private cdr: ChangeDetectorRef,
-    private service: IconPickerService) {
-  }
+    private service: IconPickerService
+  ) {}
 
-  setDialog(instance: any, elementRef: ElementRef, icon: string, ipPosition: string, ipHeight: string, ipMaxHeight: string,
-            ipWidth: string, ipPlaceHolder: string, ipFallbackIcon: string, ipIconPack: string[], ipIconSize: string,
-            ipIconVerticalPadding: string, ipIconHorizontalPadding: string, ipButtonStyleClass: string, ipDivSearchStyleClass: string,
-            ipInputSearchStyleClass: string, ipKeepSearchFilter: string, ipUseRootViewContainer?: boolean) {
+  setDialog(
+    instance: any,
+    elementRef: ElementRef,
+    icon: string,
+    ipPosition: string,
+    ipHeight: string,
+    ipMaxHeight: string,
+    ipWidth: string,
+    ipPlaceHolder: string,
+    ipFallbackIcon: string,
+    ipIconPack: string[],
+    ipIconSize: string,
+    ipIconVerticalPadding: string,
+    ipIconHorizontalPadding: string,
+    ipButtonStyleClass: string,
+    ipDivSearchStyleClass: string,
+    ipInputSearchStyleClass: string,
+    ipKeepSearchFilter: string,
+    ipUseRootViewContainer?: boolean
+  ) {
     this.directiveInstance = instance;
     this.setInitialIcon(icon);
     this.directiveElementRef = elementRef;
@@ -88,7 +110,6 @@ export class IconPickerComponent implements OnInit {
     this.ipDivSearchStyleClass = ipDivSearchStyleClass;
     this.ipUseRootViewContainer = ipUseRootViewContainer;
 
-
     this.buttonHeight = this.ipIconSize + 2 * this.ipIconVerticalPadding;
     this.buttonWidth = this.ipIconSize + 2 * this.ipIconHorizontalPadding;
   }
@@ -102,14 +123,21 @@ export class IconPickerComponent implements OnInit {
 
   setInitialIcon(icon: string) {
     this.initialIcon = icon;
-    this.selectedIcon = this.icons.find(el => el ?
-      `fa fa-${el.id}` === icon || `pi pi-${el.id}` === icon || `${el.id}` === icon :
-      false
+    this.selectedIcon = this.icons.find((el) =>
+      el
+        ? `fa fa-${el.id}` === icon ||
+          `pi pi-${el.id}` === icon ||
+          `${el.id}` === icon
+        : false
     );
-    if (this.ipKeepSearchFilter && this.selectedIcon && icon !== this.ipFallbackIcon) {
+    if (
+      this.ipKeepSearchFilter &&
+      this.selectedIcon &&
+      icon !== this.ipFallbackIcon
+    ) {
       this.search = this.selectedIcon.id;
     } else {
-      this.search = '';
+      this.search = "";
     }
   }
 
@@ -138,7 +166,10 @@ export class IconPickerComponent implements OnInit {
   }
 
   onMouseDown(event: any) {
-    if (!this.isDescendant(this.el.nativeElement, event.target) && event.target !== this.directiveElementRef.nativeElement) {
+    if (
+      !this.isDescendant(this.el.nativeElement, event.target) &&
+      event.target !== this.directiveElementRef.nativeElement
+    ) {
       this.closeIconPicker();
     }
   }
@@ -153,8 +184,8 @@ export class IconPickerComponent implements OnInit {
         this.cdr.detectChanges();
       }, 0);
       this.directiveInstance.stateChanged(true);
-      document.addEventListener('mousedown', this.listenerMouseDown);
-      window.addEventListener('resize', this.listenerResize);
+      document.addEventListener("mousedown", this.listenerMouseDown);
+      window.addEventListener("resize", this.listenerResize);
     }
   }
 
@@ -162,14 +193,14 @@ export class IconPickerComponent implements OnInit {
     if (this.show) {
       this.show = false;
       this.directiveInstance.stateChanged(false);
-      document.removeEventListener('mousedown', this.listenerMouseDown);
-      window.removeEventListener('resize', this.listenerResize);
+      document.removeEventListener("mousedown", this.listenerMouseDown);
+      window.removeEventListener("resize", this.listenerResize);
       this.cdr.detectChanges();
     }
   }
 
   onResize() {
-    if (this.position === 'fixed') {
+    if (this.position === "fixed") {
       this.setDialogPosition();
     }
   }
@@ -177,30 +208,36 @@ export class IconPickerComponent implements OnInit {
   setDialogPosition() {
     const dialogHeight = this.dialogElement.nativeElement.offsetHeight;
     let node = this.directiveElementRef.nativeElement;
-    let position = 'static';
-    let transform = '';
+    let position = "static";
+    let transform = "";
     let parentNode: any = null;
     let transformNode: any = null;
     let style: any = null;
-    while (node !== null && node.tagName !== 'HTML') {
+    while (node !== null && node.tagName !== "HTML") {
       style = window.getComputedStyle(node);
-      position = style.getPropertyValue('position');
-      transform = style.getPropertyValue('transform');
-      if (position !== 'static' && parentNode === null) {
+      position = style.getPropertyValue("position");
+      transform = style.getPropertyValue("transform");
+      if (position !== "static" && parentNode === null) {
         parentNode = node;
       }
-      if (transform && transform !== 'none' && transformNode === null) {
+      if (transform && transform !== "none" && transformNode === null) {
         transformNode = node;
       }
-      if (position === 'fixed') {
+      if (position === "fixed") {
         parentNode = transformNode;
         break;
       }
       node = node.parentNode;
     }
-    const boxDirective = this.createBox(this.directiveElementRef.nativeElement, (position !== 'fixed'));
-    if (this.ipUseRootViewContainer || (position === 'fixed' &&
-      (!parentNode || parentNode instanceof HTMLUnknownElement))) {
+    const boxDirective = this.createBox(
+      this.directiveElementRef.nativeElement,
+      position !== "fixed"
+    );
+    if (
+      this.ipUseRootViewContainer ||
+      (position === "fixed" &&
+        (!parentNode || parentNode instanceof HTMLUnknownElement))
+    ) {
       this.top = boxDirective.top;
       this.left = boxDirective.left;
     } else {
@@ -208,21 +245,21 @@ export class IconPickerComponent implements OnInit {
         parentNode = node;
       }
 
-      const boxParent = this.createBox(parentNode, (position !== 'fixed'));
+      const boxParent = this.createBox(parentNode, position !== "fixed");
 
       this.top = boxDirective.top - boxParent.top;
       this.left = boxDirective.left - boxParent.left;
     }
 
-    if (position === 'fixed') {
-      this.position = 'fixed';
+    if (position === "fixed") {
+      this.position = "fixed";
     }
-    if (this.ipPosition === 'left') {
+    if (this.ipPosition === "left") {
       this.left -= this.ipWidth + this.dialogArrowSize - 2;
-    } else if (this.ipPosition === 'top') {
+    } else if (this.ipPosition === "top") {
       this.top -= dialogHeight + this.dialogArrowSize;
       this.arrowTop = dialogHeight - 1;
-    } else if (this.ipPosition === 'bottom') {
+    } else if (this.ipPosition === "bottom") {
       this.top += boxDirective.height + this.dialogArrowSize;
     } else {
       this.left += boxDirective.width + this.dialogArrowSize - 2;
@@ -242,10 +279,13 @@ export class IconPickerComponent implements OnInit {
 
   createBox(element: any, offset: boolean): any {
     return {
-      top: element.getBoundingClientRect().top + (offset ? window.pageYOffset : 0),
-      left: element.getBoundingClientRect().left + (offset ? window.pageXOffset : 0),
+      top:
+        element.getBoundingClientRect().top + (offset ? window.pageYOffset : 0),
+      left:
+        element.getBoundingClientRect().left +
+        (offset ? window.pageXOffset : 0),
       width: element.offsetWidth,
-      height: element.offsetHeight
+      height: element.offsetHeight,
     };
   }
 }
